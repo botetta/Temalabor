@@ -14,20 +14,30 @@ public class PlayerMovementScript : MonoBehaviour
     public float runSpeed;
     private float speed;
 
+
     [Header("Crouching")]
     public float crouchSpeed;
     [Tooltip("By how much the player's size should \"shrink\" when crouching.")]
     public float crouchYScale;
     private float startYScale;
 
-    [Header("Others")]
+    [Header("Jumping")]
     public float gravity;
     public float jumpHeight;
     [Tooltip("The player can still jump for a small amount of time, even after they supposedly left the ground")]
     public float jumpInAirAllowedDelay;
     private float jumpDelayTimer; //Counts down from jumpInAirAllowedDelay to 0. Player can jump as long as this is above 0
 
+    [Header("Dashing")]
+    [Tooltip("Whether or not the player can dash")]
+    public bool dashingAllowed;
+    [Tooltip("How long the player should dash for. Shouldn't be too long (<1sec)")]
+    public float dashTime;
+    [Tooltip("How fast the player should dash. Should be pretty big (>20)")]
+    public float dashSpeed;
+    private bool isDashing = false;
 
+    [Header("Others")]
     public float groundDistance;
     public LayerMask groundMask;
 
@@ -80,6 +90,11 @@ public class PlayerMovementScript : MonoBehaviour
         if (Input.GetButtonDown("Jump") && canJump)
         {
             velocity.y = Mathf.Sqrt(-2f * gravity * jumpHeight);
+        }
+        //Dash if the player is allowed to dash and presses the dash jump button again while in the air
+        else if (Input.GetButtonDown("Jump") && dashingAllowed && !isGrounded && !isDashing)
+        {
+            StartCoroutine(DashCoroutine());
         }
         if (Input.GetButtonUp("Jump"))
         {
@@ -163,5 +178,31 @@ public class PlayerMovementScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        isDashing = true;
+        Debug.Log("Dashing");
+        float startTime = Time.time; // need to remember this to know how long to dash
+        var dashDirection = transform.forward;
+        while (Time.time < startTime + dashTime)
+        {
+            //IsGrounded and CheckSphere is almost the same, but CheckSphere is more accurate, and isGrounded is
+            //better for detecting when the player is near an edge. So we use both..
+            Vector3 groundPosition = transform.position - new Vector3(0, transform.localScale.y, 0);
+
+            //If the player touches the ground while dashing, stop dashing
+            if (Physics.CheckSphere(groundPosition, groundDistance, groundMask) || isGrounded)
+            {
+                isDashing = false;
+                yield break; // this will make Unity stop the coroutine
+            }
+            
+
+            controller.Move(dashSpeed * Time.deltaTime * dashDirection);
+            yield return null; // this will make Unity stop here and continue next frame
+        }
+        isDashing = false;
     }
 }

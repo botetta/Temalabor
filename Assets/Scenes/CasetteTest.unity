@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3148,11 +3148,14 @@ MonoBehaviour:
   controller: {fileID: 2040644999}
   walkSpeed: 5
   runSpeed: 8
+  can_dash: 1
   crouchSpeed: 3
   crouchYScale: 0.7
   gravity: -39.24
   jumpHeight: 2
   jumpInAirAllowedDelay: 0.3
+  dashTime: 1
+  dashSpeed: 3
   groundDistance: 0.15
   groundMask:
     serializedVersion: 2
@@ -3193,7 +3196,7 @@ Transform:
   m_GameObject: {fileID: 2040644997}
   serializedVersion: 2
   m_LocalRotation: {x: 1.8503718e-18, y: 1.850373e-18, z: -0.0000000842937, w: 1}
-  m_LocalPosition: {x: 1.2, y: 3.22, z: -3.05}
+  m_LocalPosition: {x: -0.03, y: 3.09, z: -2.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
