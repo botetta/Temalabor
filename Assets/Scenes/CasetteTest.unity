@@ -123,6 +123,71 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &71744483
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 850608981}
+    m_Modifications:
+    - target: {fileID: -5895600679338264962, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 32347566427606372, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_Name
+      value: Dash Casette
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.344291
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.781
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.54340935
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9659258
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.2588191
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 30
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -5895600679338264962, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 32347566427606372, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1671149191}
+  m_SourcePrefab: {fileID: 100100000, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
 --- !u!1001 &102957348
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1182,6 +1247,7 @@ Transform:
   - {fileID: 102957350}
   - {fileID: 1198584954}
   - {fileID: 641975364}
+  - {fileID: 1671149190}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &865605784
@@ -1381,6 +1447,8 @@ MonoBehaviour:
   - _gameObject: {fileID: 1198584953}
     _prefab: Assets/Prefabs/Casette.prefab
   - _gameObject: {fileID: 641975363}
+    _prefab: Assets/Prefabs/Casette.prefab
+  - _gameObject: {fileID: 1671149187}
     _prefab: Assets/Prefabs/Casette.prefab
 --- !u!4 &941052655
 Transform:
@@ -2743,6 +2811,33 @@ MonoBehaviour:
   bobAmplitude: 0.5
   track: {fileID: 2074025594}
   obstacle: {fileID: 1186386313}
+--- !u!1 &1671149187 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 32347566427606372, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+  m_PrefabInstance: {fileID: 71744483}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1671149190 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3929407175620974044, guid: 6db9b8cf6b79a9245bbc38291c99bae7, type: 3}
+  m_PrefabInstance: {fileID: 71744483}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1671149191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671149187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5660cc0b7565a0b4e9707a9b06a65889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  casette: {fileID: 1671149187}
+  rotateSpeed: 100
+  bobSpeed: 1
+  bobAmplitude: 0.5
+  track: {fileID: 0}
 --- !u!1 &1681966920
 GameObject:
   m_ObjectHideFlags: 0
@@ -3263,7 +3358,7 @@ MonoBehaviour:
   gravity: -39.24
   jumpHeight: 2
   jumpInAirAllowedDelay: 0.3
-  dashingAllowed: 1
+  dashingAllowed: 0
   dashTime: 0.5
   dashSpeed: 35
   chromaticMaxIntensity: 5

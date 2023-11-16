@@ -199,12 +199,10 @@ public class PlayerMovementScript : MonoBehaviour
         isDashing = true;
         //chromaticAberration.active = true;
         chromaticTargetIntensity = chromaticMaxIntensity;
-        Debug.Log("Dashing");
         float startTime = Time.time; // need to remember this to know how long to dash
         var dashDirection = transform.forward;
         //Give a small upwards impulse to the player
         velocity.y = Mathf.Sqrt(-2f * gravity * jumpHeight / 4);
-        Debug.Log(dashDirection);
         while (Time.time < startTime + dashTime)
         {
             //IsGrounded and CheckSphere is almost the same, but CheckSphere is more accurate, and isGrounded is
