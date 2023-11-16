@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 [SelectionBase]
 public class PlayerMovementScript : MonoBehaviour
 {
     public CharacterController controller;
-   
+    private PostProcessVolume postProcessVolume;
+    private ChromaticAberration chromaticAberration;
 
 
     [Header("Movement")]
@@ -36,6 +38,13 @@ public class PlayerMovementScript : MonoBehaviour
     [Tooltip("How fast the player should dash. Should be pretty big (>20)")]
     public float dashSpeed;
     private bool isDashing = false;
+    public bool IsDashing => isDashing;
+    //Values for chromatic aberration effect when dashing
+    private float chromaticChangeSpeed = 10f; //How fast the chromatic aberration effect changes
+    [Tooltip("The maximum intensity of the chromatic aberration effect when dashing")]
+    public float chromaticMaxIntensity = 5f;
+    private float chromaticMinIntensity = 0f; //Should be 0, but I'm leaving it here in case we want to change it later
+    private float chromaticTargetIntensity = 0f; //The intensity that the chromatic aberration effect is trying to reach (either chromaticMaxIntensity or chromaticMinIntensity)
 
     [Header("Others")]
     public float groundDistance;
@@ -45,6 +54,8 @@ public class PlayerMovementScript : MonoBehaviour
     private bool isGrounded;
     private bool canJump; //Whether or not the player is allowed to jump. Even after the player is no longer grounded, they can still jump for a small amount of time
     private bool wantsToGetOutOfCrouch;
+
+    
 
     public MovementState state;
     public enum MovementState
@@ -58,11 +69,14 @@ public class PlayerMovementScript : MonoBehaviour
     private void Start()
     {
         startYScale = transform.localScale.y;
+        postProcessVolume = GetComponentInChildren<PostProcessVolume>();
+        postProcessVolume.profile.TryGetSettings(out chromaticAberration);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         Vector3 groundPosition = transform.position - new Vector3(0, transform.localScale.y, 0);
         isGrounded = controller.isGrounded; //Physics.CheckSphere(groundPosition, groundDistance, groundMask); // Checks if the player is on the ground
 
@@ -102,7 +116,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
         CrouchHandler();
         StateHandler();
-        
+        chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, chromaticTargetIntensity, chromaticChangeSpeed * Time.deltaTime);
     }
 
     private void StateHandler()
@@ -183,9 +197,14 @@ public class PlayerMovementScript : MonoBehaviour
     private IEnumerator DashCoroutine()
     {
         isDashing = true;
+        //chromaticAberration.active = true;
+        chromaticTargetIntensity = chromaticMaxIntensity;
         Debug.Log("Dashing");
         float startTime = Time.time; // need to remember this to know how long to dash
         var dashDirection = transform.forward;
+        //Give a small upwards impulse to the player
+        velocity.y = Mathf.Sqrt(-2f * gravity * jumpHeight / 4);
+        Debug.Log(dashDirection);
         while (Time.time < startTime + dashTime)
         {
             //IsGrounded and CheckSphere is almost the same, but CheckSphere is more accurate, and isGrounded is
@@ -195,14 +214,15 @@ public class PlayerMovementScript : MonoBehaviour
             //If the player touches the ground while dashing, stop dashing
             if (Physics.CheckSphere(groundPosition, groundDistance, groundMask) || isGrounded)
             {
-                isDashing = false;
-                yield break; // this will make Unity stop the coroutine
+                break; // break out of the while loop, stop dashing
             }
             
 
             controller.Move(dashSpeed * Time.deltaTime * dashDirection);
             yield return null; // this will make Unity stop here and continue next frame
         }
+        //chromaticAberration.active = false;
+        chromaticTargetIntensity = chromaticMinIntensity;
         isDashing = false;
     }
 }
