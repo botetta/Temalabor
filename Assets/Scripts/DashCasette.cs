@@ -26,6 +26,9 @@ public class DashCasette : Casette
             PlayerMovementScript playerMovement = other.gameObject.GetComponent<PlayerMovementScript>();
             playerMovement.dashingAllowed = true;
             casette.SetActive(false);
+            //Find the dashing message and display it
+            DashingMessage dashingMessage = GameObject.Find("DashingMessage").GetComponent<DashingMessage>();
+            dashingMessage.DisplayMessage();
 
         }
     }

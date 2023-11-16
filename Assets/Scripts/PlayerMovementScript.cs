@@ -38,6 +38,7 @@ public class PlayerMovementScript : MonoBehaviour
     [Tooltip("How fast the player should dash. Should be pretty big (>20)")]
     public float dashSpeed;
     private bool isDashing = false;
+    //Whether or not the player is currently dashing. 
     public bool IsDashing => isDashing;
     //Values for chromatic aberration effect when dashing
     private float chromaticChangeSpeed = 10f; //How fast the chromatic aberration effect changes
@@ -45,6 +46,7 @@ public class PlayerMovementScript : MonoBehaviour
     public float chromaticMaxIntensity = 5f;
     private float chromaticMinIntensity = 0f; //Should be 0, but I'm leaving it here in case we want to change it later
     private float chromaticTargetIntensity = 0f; //The intensity that the chromatic aberration effect is trying to reach (either chromaticMaxIntensity or chromaticMinIntensity)
+    private bool canDash = false; //Wheter or not the player can CURRENTLY dash. This is different from dashingAllowed, which is whether or not the player can dash at all. The player can only dash once per jump, so this is used to prevent the player from dashing multiple times in the air
 
     [Header("Others")]
     public float groundDistance;
@@ -106,7 +108,7 @@ public class PlayerMovementScript : MonoBehaviour
             velocity.y = Mathf.Sqrt(-2f * gravity * jumpHeight);
         }
         //Dash if the player is allowed to dash and presses the dash jump button again while in the air
-        else if (Input.GetButtonDown("Jump") && dashingAllowed && !isGrounded && !isDashing)
+        else if (Input.GetButtonDown("Jump") && dashingAllowed && !isGrounded && !isDashing && canDash)
         {
             StartCoroutine(DashCoroutine());
         }
@@ -175,6 +177,7 @@ public class PlayerMovementScript : MonoBehaviour
         if (isGrounded)
         {
             canJump = true;
+            canDash = true;
             jumpDelayTimer = jumpInAirAllowedDelay;
         }
         else
@@ -222,5 +225,6 @@ public class PlayerMovementScript : MonoBehaviour
         //chromaticAberration.active = false;
         chromaticTargetIntensity = chromaticMinIntensity;
         isDashing = false;
+        canDash = false; //The player can't dash again until they jump again
     }
 }
