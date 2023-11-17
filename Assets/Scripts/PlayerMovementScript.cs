@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 [SelectionBase]
 public class PlayerMovementScript : MonoBehaviour
 {
     public CharacterController controller;
-   
+    private PostProcessVolume postProcessVolume;
+    private ChromaticAberration chromaticAberration;
 
 
     [Header("Movement")]
@@ -14,20 +16,39 @@ public class PlayerMovementScript : MonoBehaviour
     public float runSpeed;
     private float speed;
 
+
     [Header("Crouching")]
     public float crouchSpeed;
     [Tooltip("By how much the player's size should \"shrink\" when crouching.")]
     public float crouchYScale;
     private float startYScale;
 
-    [Header("Others")]
+    [Header("Jumping")]
     public float gravity;
     public float jumpHeight;
     [Tooltip("The player can still jump for a small amount of time, even after they supposedly left the ground")]
     public float jumpInAirAllowedDelay;
     private float jumpDelayTimer; //Counts down from jumpInAirAllowedDelay to 0. Player can jump as long as this is above 0
 
+    [Header("Dashing")]
+    [Tooltip("Whether or not the player can dash")]
+    public bool dashingAllowed;
+    [Tooltip("How long the player should dash for. Shouldn't be too long (<1sec)")]
+    public float dashTime;
+    [Tooltip("How fast the player should dash. Should be pretty big (>20)")]
+    public float dashSpeed;
+    private bool isDashing = false;
+    //Whether or not the player is currently dashing. 
+    public bool IsDashing => isDashing;
+    //Values for chromatic aberration effect when dashing
+    private float chromaticChangeSpeed = 10f; //How fast the chromatic aberration effect changes
+    [Tooltip("The maximum intensity of the chromatic aberration effect when dashing")]
+    public float chromaticMaxIntensity = 5f;
+    private float chromaticMinIntensity = 0f; //Should be 0, but I'm leaving it here in case we want to change it later
+    private float chromaticTargetIntensity = 0f; //The intensity that the chromatic aberration effect is trying to reach (either chromaticMaxIntensity or chromaticMinIntensity)
+    private bool canDash = false; //Wheter or not the player can CURRENTLY dash. This is different from dashingAllowed, which is whether or not the player can dash at all. The player can only dash once per jump, so this is used to prevent the player from dashing multiple times in the air
 
+    [Header("Others")]
     public float groundDistance;
     public LayerMask groundMask;
 
@@ -35,6 +56,8 @@ public class PlayerMovementScript : MonoBehaviour
     private bool isGrounded;
     private bool canJump; //Whether or not the player is allowed to jump. Even after the player is no longer grounded, they can still jump for a small amount of time
     private bool wantsToGetOutOfCrouch;
+
+    
 
     public MovementState state;
     public enum MovementState
@@ -48,11 +71,14 @@ public class PlayerMovementScript : MonoBehaviour
     private void Start()
     {
         startYScale = transform.localScale.y;
+        postProcessVolume = GetComponentInChildren<PostProcessVolume>();
+        postProcessVolume.profile.TryGetSettings(out chromaticAberration);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         Vector3 groundPosition = transform.position - new Vector3(0, transform.localScale.y, 0);
         isGrounded = controller.isGrounded; //Physics.CheckSphere(groundPosition, groundDistance, groundMask); // Checks if the player is on the ground
 
@@ -81,13 +107,18 @@ public class PlayerMovementScript : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(-2f * gravity * jumpHeight);
         }
+        //Dash if the player is allowed to dash and presses the dash jump button again while in the air
+        else if (Input.GetButtonDown("Jump") && dashingAllowed && !isGrounded && !isDashing && canDash)
+        {
+            StartCoroutine(DashCoroutine());
+        }
         if (Input.GetButtonUp("Jump"))
         {
             canJump = false; //This is to prevent the player from jumping multiple times in the air
         }
         CrouchHandler();
         StateHandler();
-        
+        chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, chromaticTargetIntensity, chromaticChangeSpeed * Time.deltaTime);
     }
 
     private void StateHandler()
@@ -146,6 +177,7 @@ public class PlayerMovementScript : MonoBehaviour
         if (isGrounded)
         {
             canJump = true;
+            canDash = true;
             jumpDelayTimer = jumpInAirAllowedDelay;
         }
         else
@@ -163,5 +195,36 @@ public class PlayerMovementScript : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator DashCoroutine()
+    {
+        isDashing = true;
+        //chromaticAberration.active = true;
+        chromaticTargetIntensity = chromaticMaxIntensity;
+        float startTime = Time.time; // need to remember this to know how long to dash
+        var dashDirection = transform.forward;
+        //Give a small upwards impulse to the player
+        velocity.y = Mathf.Sqrt(-2f * gravity * jumpHeight / 4);
+        while (Time.time < startTime + dashTime)
+        {
+            //IsGrounded and CheckSphere is almost the same, but CheckSphere is more accurate, and isGrounded is
+            //better for detecting when the player is near an edge. So we use both..
+            Vector3 groundPosition = transform.position - new Vector3(0, transform.localScale.y, 0);
+
+            //If the player touches the ground while dashing, stop dashing
+            if (Physics.CheckSphere(groundPosition, groundDistance, groundMask) || isGrounded)
+            {
+                break; // break out of the while loop, stop dashing
+            }
+            
+
+            controller.Move(dashSpeed * Time.deltaTime * dashDirection);
+            yield return null; // this will make Unity stop here and continue next frame
+        }
+        //chromaticAberration.active = false;
+        chromaticTargetIntensity = chromaticMinIntensity;
+        isDashing = false;
+        canDash = false; //The player can't dash again until they jump again
     }
 }

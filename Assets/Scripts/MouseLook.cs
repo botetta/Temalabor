@@ -8,7 +8,7 @@ public class MouseLook : MonoBehaviour
 {
     //Objects
     public Transform playerBody;
-    public Camera camera;
+    public new Camera camera;
     public PlayerMovementScript playerMovementScript;
 
     [Header("Values")] //Public variables
@@ -16,8 +16,11 @@ public class MouseLook : MonoBehaviour
     public float mouseSensitivity;
 
     //FOV Private variables
-    private readonly float fovMultiplier = 1.25f; 
+    private readonly float sprintFovMultiplier = 1.25f; 
+    private readonly float dashFovMultiplier = 1.5f;
     private float sprintFov;
+    private float dashFov;
+    //How fast the FOV changes
     private float fovSpeed = 20f;
 
     private float xRotation = 0f;
@@ -28,15 +31,15 @@ public class MouseLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked; // Locks the cursor to the center of the screen
         Application.targetFrameRate = 165;
         // Calculate the sprint FOV
-        sprintFov = FOV * fovMultiplier;
-      
+        sprintFov = FOV * sprintFovMultiplier;
+        dashFov = FOV * dashFovMultiplier;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -55,9 +58,23 @@ public class MouseLook : MonoBehaviour
         }
         // Check if the player is sprinting
         bool isSprinting = Input.GetButton("Sprint");
+        // Check if the player is dashing
+        bool isDashing = playerMovementScript.IsDashing;
 
-        // Set the target FOV based on the sprinting state
-        float targetFov = isSprinting ? sprintFov : FOV;
+        //If else statement for setting target fov: Check dashing first, then sprinting, then default
+        float targetFov;
+        if (isDashing)
+        {
+            targetFov = dashFov;
+        }
+        else if (isSprinting)
+        {
+            targetFov = sprintFov;
+        }
+        else
+        {
+            targetFov = FOV;
+        }
 
         // Smoothly interpolate the current FOV to the target FOV
         camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, targetFov, fovSpeed * Time.deltaTime);
