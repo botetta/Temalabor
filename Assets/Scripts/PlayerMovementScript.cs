@@ -227,4 +227,6 @@ public class PlayerMovementScript : MonoBehaviour
         isDashing = false;
         canDash = false; //The player can't dash again until they jump again
     }
+
+    
 }

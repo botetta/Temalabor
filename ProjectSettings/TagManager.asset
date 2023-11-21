@@ -8,6 +8,7 @@ TagManager:
   - Disappearing Platforms
   - Track2
   - SynchronizationTrack
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX
