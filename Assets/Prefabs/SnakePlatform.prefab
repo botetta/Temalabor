@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 9145630376548919800}
   m_Layer: 0
   m_Name: SnakePlatform
-  m_TagString: Disappearing Platforms
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

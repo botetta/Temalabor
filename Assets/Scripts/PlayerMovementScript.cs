@@ -56,6 +56,7 @@ public class PlayerMovementScript : MonoBehaviour
     private bool isGrounded;
     private bool canJump; //Whether or not the player is allowed to jump. Even after the player is no longer grounded, they can still jump for a small amount of time
     private bool wantsToGetOutOfCrouch;
+    [SerializeField] private float resistance;
 
     
 
@@ -90,7 +91,20 @@ public class PlayerMovementScript : MonoBehaviour
         {
             velocity.y = -0.5f;
         }
-        
+
+        if (Mathf.Abs(velocity.x) <= resistance && Mathf.Abs(velocity.z) <= resistance)
+        {
+            velocity.x = 0;
+            velocity.z = 0;
+        }
+        if (velocity.x > resistance)
+            velocity.x -= resistance;
+        else if (velocity.x < -resistance)
+            velocity.x += resistance;
+        if (velocity.z > resistance)
+            velocity.z -= resistance;
+        else if (velocity.y < -resistance)
+            velocity.z += resistance;
 
         float x = Input.GetAxis("Horizontal"); // A and D keys
         float z = Input.GetAxis("Vertical"); // W and S keys
@@ -226,5 +240,10 @@ public class PlayerMovementScript : MonoBehaviour
         chromaticTargetIntensity = chromaticMinIntensity;
         isDashing = false;
         canDash = false; //The player can't dash again until they jump again
+    }
+
+    public void AddVelocity(Vector3 v)
+    {
+        velocity += v;
     }
 }

@@ -10,7 +10,6 @@ public abstract class Casette : MonoBehaviour
     [SerializeField] private float bobAmplitude = 0.5f;
     private float t = 0;
     private float y;
-    // Start is called before the first frame update
 
     protected PlayAudioScript playAudioScript;
     [SerializeField]

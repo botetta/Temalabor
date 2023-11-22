@@ -32,7 +32,7 @@ public class ObstacleCasette : Casette
             casette.SetActive(false);
 
             AudioSource track = playAudioScript.playTrack();
-
+            Debug.Log($"Track played {Time.time}");
             foreach(var ol in obstacleLogics)
             {
                 if (ol == null)

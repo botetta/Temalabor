@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 627640596511203824}
   m_Layer: 0
   m_Name: Disappearing platforms
-  m_TagString: Disappearing Platforms
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
