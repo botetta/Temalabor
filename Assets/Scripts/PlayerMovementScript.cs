@@ -259,7 +259,6 @@ public class PlayerMovementScript : MonoBehaviour
     // This method is called when the controller collides with another collider
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        Debug.Log("Collision detected");
         if (hit.collider.tag == "DeadlyCube")
         {
             //Get the DeadlyCubeScript component of the hit collider
