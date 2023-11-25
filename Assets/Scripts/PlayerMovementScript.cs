@@ -57,6 +57,12 @@ public class PlayerMovementScript : MonoBehaviour
     private bool canJump; //Whether or not the player is allowed to jump. Even after the player is no longer grounded, they can still jump for a small amount of time
     private bool wantsToGetOutOfCrouch;
 
+    //Coordinates for the player's spawn point
+    public Vector3 SpawnPoint { get; set; }
+
+
+
+
     
 
     public MovementState state;
@@ -73,6 +79,11 @@ public class PlayerMovementScript : MonoBehaviour
         startYScale = transform.localScale.y;
         postProcessVolume = GetComponentInChildren<PostProcessVolume>();
         postProcessVolume.profile.TryGetSettings(out chromaticAberration);
+
+        //Set the spawn point to the player's starting position
+        SpawnPoint = transform.position;
+
+
     }
 
     // Update is called once per frame
@@ -118,6 +129,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
         CrouchHandler();
         StateHandler();
+        DieWhenOutOfMap(); //If the player falls out of the map, they die
         chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, chromaticTargetIntensity, chromaticChangeSpeed * Time.deltaTime);
     }
 
@@ -227,4 +239,40 @@ public class PlayerMovementScript : MonoBehaviour
         isDashing = false;
         canDash = false; //The player can't dash again until they jump again
     }
+
+
+    //Should be called when the player dies
+    public void OnDeath()
+    {
+        transform.position = SpawnPoint;
+    }
+
+    //If the player falls out of the map, they die (this is called in Update)
+    public void DieWhenOutOfMap()
+    {
+        if (transform.position.y < -10)
+        {
+            OnDeath();
+        }
+    }
+
+    // This method is called when the controller collides with another collider
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.collider.tag == "DeadlyCube")
+        {
+            //Get the DeadlyCubeScript component of the hit collider
+            DeadlyCubeScript deadlyCubeScript = hit.collider.GetComponent<DeadlyCubeScript>();
+
+            // Check if the object is deadly
+            if (deadlyCubeScript.IsDeadly)
+            {
+                OnDeath();
+            }
+        }
+    }
+
+
+
+
 }
