@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerCollisionScript : MonoBehaviour
 {
-    public GameObject Player;
+    public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +23,22 @@ public class PlayerCollisionScript : MonoBehaviour
         {
 
         }
+
+        //Colliding Objects
+        if (collision.gameObject.layer == 9)
+        {
+        
+            Debug.Log("collision");
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.layer == 9)
+        { 
+            Debug.Log("Exit");
+        }
+
     }
 
 }

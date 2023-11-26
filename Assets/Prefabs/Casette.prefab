@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3929407175620974044}
-  - component: {fileID: -5895600679338264962}
   - component: {fileID: 9149756189074078397}
   m_Layer: 7
   m_Name: Casette
@@ -39,24 +38,6 @@ Transform:
   - {fileID: 6247151685458541610}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
---- !u!114 &-5895600679338264962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32347566427606372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3ffcd9d8eb9b6d48a526af77bf1abfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  casette: {fileID: 32347566427606372}
-  rotateSpeed: 100
-  bobSpeed: 1
-  bobAmplitude: 0.5
-  track: {fileID: 0}
-  platformLogic: {fileID: 0}
 --- !u!135 &9149756189074078397
 SphereCollider:
   m_ObjectHideFlags: 0

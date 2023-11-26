@@ -5,16 +5,19 @@ using UnityEngine;
 public class ObstacleCasette : Casette
 {
     //for OO, this is going to be ObstacleLogic instead of PlatformLogic
-    private ObstacleLogic obstacleLogic;
+    private List<ObstacleLogic> obstacleLogics = new List<ObstacleLogic>();
 
     [SerializeField]
-    private GameObject obstacle;
+    private List<GameObject> obstacles = new List<GameObject>();
 
     private void Start()
     {
         Init();
 
-        if (obstacle != null) obstacleLogic = obstacle.GetComponent<ObstacleLogic>();
+        for (int i = 0; i < obstacles.Count; ++i) {
+            obstacleLogics.Add(obstacles[i].GetComponent<ObstacleLogic>());
+        }
+        
     }
 
     private void Update()
@@ -29,10 +32,16 @@ public class ObstacleCasette : Casette
             casette.SetActive(false);
 
             AudioSource track = playAudioScript.playTrack();
-
-            if (obstacleLogic == null) return;
-
-            obstacleLogic.Enable();
+            Debug.Log($"Track played {Time.time}");
+            foreach(var ol in obstacleLogics)
+            {
+                if (ol == null)
+                {
+                    throw new System.Exception("obstacle logic is null");
+                    
+                }
+                ol.Enable();
+            }
 
 
         }
