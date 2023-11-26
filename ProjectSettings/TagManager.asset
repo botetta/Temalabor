@@ -8,6 +8,9 @@ TagManager:
   - Disappearing Platforms
   - Track2
   - SynchronizationTrack
+  - MovingPlatform
+  - Spawnpoint
+  - DeadlyCube
   layers:
   - Default
   - TransparentFX
