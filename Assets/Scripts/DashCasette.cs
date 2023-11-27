@@ -28,7 +28,7 @@ public class DashCasette : Casette
             casette.SetActive(false);
             //Find the dashing message and display it
             DashingMessage dashingMessage = GameObject.Find("DashingMessage").GetComponent<DashingMessage>();
-            dashingMessage.DisplayMessage();
+            dashingMessage.DisplayMessage("New Ability!<br>Press \"Space\" in midair to dash");
 
         }
     }

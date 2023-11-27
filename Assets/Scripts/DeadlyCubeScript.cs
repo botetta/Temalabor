@@ -21,10 +21,12 @@ public class DeadlyCubeScript : MonoBehaviour
         SetDeadly(IsDeadly);
         //Change whether the cube is deadly or not every 1 second, using invoke repeating
         // !!! This is just for testing, later this should be synced with the music !!!
+        /*
         if (changingDeadly)
         {
             InvokeRepeating(nameof(ChangeDeadly), 1, 1);
         }
+        */
         
     }
 

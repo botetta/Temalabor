@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5360312112165143823}
   - component: {fileID: 7437449134412932286}
   - component: {fileID: 5491964515477110677}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: DashingMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 7437449134412932286}
-  timeToDisplay: 3
 --- !u!1 &5161688364989419422
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +160,7 @@ GameObject:
   - component: {fileID: 1831129810786557072}
   - component: {fileID: 5161444758817409042}
   - component: {fileID: 3706499291432501397}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -344,6 +343,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 1
+  resistance: 0
   state: 0
 --- !u!114 &7631707919507364328
 MonoBehaviour:
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708d4e13dcf7074cb1bc62d17b82130, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  player: {fileID: 0}
 --- !u!1 &5691853431677572671
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,7 +696,7 @@ GameObject:
   - component: {fileID: 5725692827552925913}
   - component: {fileID: 6294850361113457071}
   - component: {fileID: 3027923114101424158}
-  m_Layer: 6
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

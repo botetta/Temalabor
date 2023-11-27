@@ -211,7 +211,7 @@ MonoBehaviour:
   bobSpeed: 1
   bobAmplitude: 0.5
   track: {fileID: 1692905263}
-  obstacle: {fileID: 0}
+  obstacles: []
 --- !u!1 &143772892
 GameObject:
   m_ObjectHideFlags: 0
@@ -869,7 +869,7 @@ MonoBehaviour:
   bobSpeed: 1
   bobAmplitude: 0.5
   track: {fileID: 472455749}
-  obstacle: {fileID: 0}
+  obstacles: []
 --- !u!1 &834411569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,7 +1604,7 @@ MonoBehaviour:
   bobSpeed: 1
   bobAmplitude: 0.5
   track: {fileID: 444740376}
-  obstacle: {fileID: 0}
+  obstacles: []
 --- !u!1 &1374662217
 GameObject:
   m_ObjectHideFlags: 0
@@ -1838,7 +1838,7 @@ MonoBehaviour:
   bobSpeed: 1
   bobAmplitude: 0.5
   track: {fileID: 143772892}
-  obstacle: {fileID: 0}
+  obstacles: []
 --- !u!1 &1547570732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2184,7 +2184,8 @@ MonoBehaviour:
   bobSpeed: 1
   bobAmplitude: 0.5
   track: {fileID: 2074025594}
-  obstacle: {fileID: 1186386313}
+  obstacles:
+  - {fileID: 1186386313}
 --- !u!1 &1671149187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4340195069434953479, guid: 06ffca387687d7e4b8c55d8ee5c6ea17, type: 3}
@@ -2554,7 +2555,7 @@ MonoBehaviour:
   bobSpeed: 1
   bobAmplitude: 0.5
   track: {fileID: 1547570732}
-  obstacle: {fileID: 0}
+  obstacles: []
 --- !u!1001 &2006747358
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2675,7 +2676,7 @@ MonoBehaviour:
   bobSpeed: 1
   bobAmplitude: 0.5
   track: {fileID: 1064745685}
-  obstacle: {fileID: 0}
+  obstacles: []
 --- !u!1 &2040644997 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5439447984151175540, guid: 1a47146f1aa29dd4eaf7c6e9de38b402, type: 3}
@@ -2936,6 +2937,10 @@ PrefabInstance:
     - target: {fileID: 5439447984151175540, guid: 1a47146f1aa29dd4eaf7c6e9de38b402, type: 3}
       propertyPath: m_Name
       value: First Person Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7437449134412932286, guid: 1a47146f1aa29dd4eaf7c6e9de38b402, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8304570310700497617, guid: 1a47146f1aa29dd4eaf7c6e9de38b402, type: 3}
       propertyPath: m_LocalPosition.x

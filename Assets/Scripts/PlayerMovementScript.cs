@@ -62,9 +62,9 @@ public class PlayerMovementScript : MonoBehaviour
     public Vector3 SpawnPoint { get; set; }
 
 
+    private Rigidbody rb;
 
 
-    
 
     public MovementState state;
     public enum MovementState
@@ -83,6 +83,9 @@ public class PlayerMovementScript : MonoBehaviour
 
         //Set the spawn point to the player's starting position
         SpawnPoint = transform.position;
+
+        //We need the rigidbody to apply knockback
+        rb = GetComponentInChildren<Rigidbody>();
 
 
     }
@@ -258,6 +261,11 @@ public class PlayerMovementScript : MonoBehaviour
     public void AddVelocity(Vector3 v)
     {
         velocity += v;
+    }
+
+    public void RemoveVelocity(Vector3 v)
+    {
+        velocity -= v;
     }
 
 

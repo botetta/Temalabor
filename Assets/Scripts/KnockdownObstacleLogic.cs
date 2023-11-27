@@ -14,7 +14,6 @@ public class KnockdownObstacleLogic : ObstacleLogic
 
 
     private bool moving = false;
-    private bool forward = false;
     private bool accelerating = false;
     private Vector3 direction;
     float distance;
@@ -39,7 +38,6 @@ public class KnockdownObstacleLogic : ObstacleLogic
         body.transform.position = startPoint.transform.position;
         acceleration = distance / Mathf.Pow(travelTimeSeconds / 2, 2);
         body.SetActive(true);
-        forward = true;
         accelerating = true;
         float currentBeat = System.MathF.Floor(syncTrack.time / secPerBeat);
         Invoke("startMovement", secondsUntilNextBeat());
