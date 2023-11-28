@@ -18,12 +18,15 @@ public class KnockdownScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
+            /*
             playerMovement = other.gameObject.GetComponent<PlayerMovementScript>();
             //Get the direction from the obstacle to the player
             direction = obstacleLogic.Direction * obstacleLogic.Velocity * 3;
             //Start the coroutine to knockdown the player
             StartCoroutine(KnockdownCoroutine());
-            
+            */
+            other.gameObject.GetComponent<PlayerMovementScript>().AddVelocity(obstacleLogic.Direction * obstacleLogic.Velocity * 3);
+
         }
     }
 

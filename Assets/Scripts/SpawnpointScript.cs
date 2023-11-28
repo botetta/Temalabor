@@ -7,6 +7,8 @@ public class SpawnpointScript : MonoBehaviour
     //A list of all spawnpoint objects in the scene (tagged with "Spawnpoint")
     public static List<GameObject> Spawnpoints { get; private set; } = new List<GameObject>();
 
+    public bool active = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,11 +39,18 @@ public class SpawnpointScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            other.gameObject.GetComponent<PlayerMovementScript>().SpawnPoint = transform.position;
+            var player = other.gameObject.GetComponent<PlayerMovementScript>();
+            player.SpawnPoint = transform.position;
+            if (!active)
+            {
+                player.ResetDeathsSinceLastCheckpoint();
+            }
             //Set all other spawn points to inactive
             SetAllSpawnpointsInactive();
             //Set this spawn point to active
             SetActive();
+
+
         }
     }
     //Change the currently active spawnpoint's color to green
@@ -59,6 +68,7 @@ public class SpawnpointScript : MonoBehaviour
         var ps = parent.GetComponentInChildren<ParticleSystem>();
         var main = ps.main;
         main.startColor = new Color(0.0625f, 1, 0.0625f, 1);
+        active = true;
     }
 
     //Change the color back to the original blueish color when it is no longer active
@@ -76,6 +86,7 @@ public class SpawnpointScript : MonoBehaviour
         var ps = parent.GetComponentInChildren<ParticleSystem>();
         var main = ps.main;
         main.startColor = new Color(56.0f/255.0f, 122.0f/255.0f, 173.0f/255.0f, 1);
+        active = false;
     }
 
     public void SetAllSpawnpointsInactive()

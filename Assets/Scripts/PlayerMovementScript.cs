@@ -61,6 +61,21 @@ public class PlayerMovementScript : MonoBehaviour
     //Coordinates for the player's spawn point
     public Vector3 SpawnPoint { get; set; }
 
+    private int deaths = 0;
+    public int Deaths => deaths;
+
+    private int deathsSinceLastCheckpoint = 0;
+    public int DeathsSinceLastCheckpoint => deathsSinceLastCheckpoint;
+    private bool cheatPromptShown = false; //Whether or not the cheat prompt has been shown already
+
+    [SerializeField]
+    [Tooltip("Whether or not the player is cheating. This is used to turn off gravity when the player is cheating")]
+    private bool isCheating = false; //Whether or not the player is currently cheating. This is used to turn off gravity when the player is cheating
+    public bool IsCheating => isCheating;
+
+    private bool hasCheated = false; //Whether or not the player has cheated at all.
+    public bool HasCheated => hasCheated;
+
 
     private Rigidbody rb;
 
@@ -101,10 +116,12 @@ public class PlayerMovementScript : MonoBehaviour
         JumpDelayHandler();
 
         
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0 && !isCheating)
         {
             velocity.y = -0.5f;
         }
+
+        //If the player has a velocity on the x or z axis from some external force, slowly decrease it to 0
 
         if (Mathf.Abs(velocity.x) <= resistance && Mathf.Abs(velocity.z) <= resistance)
         {
@@ -126,8 +143,15 @@ public class PlayerMovementScript : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
 
         controller.Move(speed * Time.deltaTime * move);
-
-        velocity.y += gravity * Time.deltaTime;
+        if (!isCheating)
+        {
+            velocity.y += gravity * Time.deltaTime;
+        }
+        else
+        {
+            velocity.y = 1.0f;
+        }
+        
 
         controller.Move(velocity * Time.deltaTime);
 
@@ -147,7 +171,18 @@ public class PlayerMovementScript : MonoBehaviour
         CrouchHandler();
         StateHandler();
         DieWhenOutOfMap(); //If the player falls out of the map, they die
+        CheatHandler(); //If the player presses "T", they can turn on cheats
         chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, chromaticTargetIntensity, chromaticChangeSpeed * Time.deltaTime);
+    }
+
+    public void IncreaseDeathsSinceLastCheckpoint()
+    {
+        deathsSinceLastCheckpoint++;
+    }
+
+    public void ResetDeathsSinceLastCheckpoint()
+    {
+        deathsSinceLastCheckpoint = 0;
     }
 
     private void StateHandler()
@@ -226,6 +261,27 @@ public class PlayerMovementScript : MonoBehaviour
         }
     }
 
+    private void CheatHandler()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            isCheating = !isCheating;
+            if (isCheating)
+            {
+                //Show a message telling the player that they are cheating, and that they can turn off cheats by pressing "T" again (this is done in DashingMessage.cs)
+                DashingMessage dashingMessage = GameObject.Find("DashingMessage").GetComponent<DashingMessage>();
+                dashingMessage.DisplayMessage("Cheats enabled!<br>Press \"T\" again to turn off cheats", true, 5);
+                hasCheated = true;
+            }
+            else
+            {
+                //Show a message telling the player that they are no longer cheating (this is done in DashingMessage.cs)
+                DashingMessage dashingMessage = GameObject.Find("DashingMessage").GetComponent<DashingMessage>();
+                dashingMessage.DisplayMessage("Cheats disabled!", true, 2);
+            }
+        }
+    }
+
     private IEnumerator DashCoroutine()
     {
         isDashing = true;
@@ -273,6 +329,16 @@ public class PlayerMovementScript : MonoBehaviour
     public void OnDeath()
     {
         transform.position = SpawnPoint;
+        velocity = Vector3.zero; //Reset the velocity to make sure the player doesn't keep moving after they die
+        deaths++;
+        deathsSinceLastCheckpoint++;
+        Debug.Log("Player deaths: "+deaths+"; since last checkpoint:" + deathsSinceLastCheckpoint );
+        //If the player has died 5 times since the last checkpoint, show the cheat prompt
+        if (deathsSinceLastCheckpoint >= 5)
+        {
+            ShowCheatPrompt();
+            cheatPromptShown = true;
+        }
     }
 
     //If the player falls out of the map, they die (this is called in Update)
@@ -298,6 +364,17 @@ public class PlayerMovementScript : MonoBehaviour
                 OnDeath();
             }
         }
+    }
+    //Use DashingMessage.DisplayMessage to display a message on the screen
+    private void ShowCheatPrompt()
+    {
+        if (cheatPromptShown)
+        {
+            return;
+        }
+        DashingMessage dashingMessage = GameObject.Find("DashingMessage").GetComponent<DashingMessage>();
+        dashingMessage.DisplayMessage("Struggling with an obstacle?<br>You can cheat by pressing \"T\"!<br>This will temporarily turn off gravity", true, 12);
+
     }
 
 

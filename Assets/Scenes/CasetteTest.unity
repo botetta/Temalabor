@@ -3035,6 +3035,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 3629190777543341097, guid: 06ffca387687d7e4b8c55d8ee5c6ea17, type: 3}
+      propertyPath: track
+      value: 
+      objectReference: {fileID: 1692905263}
     - target: {fileID: 4340195069434953479, guid: 06ffca387687d7e4b8c55d8ee5c6ea17, type: 3}
       propertyPath: m_Name
       value: Dash Casette

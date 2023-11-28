@@ -36,7 +36,7 @@ public class DashingMessage : MonoBehaviour
     private IEnumerator DisplayMessageCoroutine()
     {
         //Reset the position of the text
-        text.transform.position = new Vector3(543, 350, 0);
+        text.transform.position = new Vector3(518, 350, 0);
        
         //Make the text slowly fade in
         text.alpha = 0;
