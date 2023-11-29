@@ -76,6 +76,8 @@ public class PlayerMovementScript : MonoBehaviour
     private bool hasCheated = false; //Whether or not the player has cheated at all.
     public bool HasCheated => hasCheated;
 
+    private bool isEscapePressedOnce = false; //Whether or not the escape button has been pressed. This is used to exit to the main menu
+    private bool isEscapePressedTwice = false; //Whether or not the escape button has been pressed twice. This is used to exit to the main menu
 
     private Rigidbody rb;
 
@@ -172,6 +174,7 @@ public class PlayerMovementScript : MonoBehaviour
         StateHandler();
         DieWhenOutOfMap(); //If the player falls out of the map, they die
         CheatHandler(); //If the player presses "T", they can turn on cheats
+        EscapeButtonHandler(); //If the player presses escape, they go back to the main menu
         chromaticAberration.intensity.value = Mathf.Lerp(chromaticAberration.intensity.value, chromaticTargetIntensity, chromaticChangeSpeed * Time.deltaTime);
     }
 
@@ -376,6 +379,35 @@ public class PlayerMovementScript : MonoBehaviour
         dashingMessage.DisplayMessage("Struggling with an obstacle?<br>You can cheat by pressing \"T\"!<br>This will temporarily turn off gravity", true, 12);
 
     }
+
+    private void EscapeButtonHandler()
+    { 
+         //Press escape to go back to the main menu
+         if (Input.GetKeyDown(KeyCode.Escape) && !isEscapePressedOnce)
+        {
+            DashingMessage dashingMessage = GameObject.Find("DashingMessage").GetComponent<DashingMessage>();
+            dashingMessage.DisplayMessage("Press Escape again to exit to the main menu.", true, 3);
+            isEscapePressedOnce = true;
+            StartCoroutine(EscapeButtonCoroutine());
+        } 
+         else if (Input.GetKeyDown(KeyCode.Escape) && isEscapePressedOnce && !isEscapePressedTwice)
+        {
+            GoToMainMenu();
+        }
+    }
+
+    private IEnumerator EscapeButtonCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        isEscapePressedOnce = false;
+    }
+
+    public static void GoToMainMenu()
+    {
+        SpawnpointScript.Spawnpoints.Clear();
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
+
 
 
 

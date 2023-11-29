@@ -33,6 +33,8 @@ public class MouseLook : MonoBehaviour
         // Calculate the sprint FOV
         sprintFov = FOV * sprintFovMultiplier;
         dashFov = FOV * dashFovMultiplier;
+        //Get the sensitivity from PlayerPrefs
+        mouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", 4.5f);
     }
 
     // Update is called once per frame
@@ -47,6 +49,7 @@ public class MouseLook : MonoBehaviour
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         playerBody.Rotate(Vector3.up * mouseX);
         FovHandler();
+        SensitivityChangeHandler();
     }
 
     private void FovHandler()
@@ -78,5 +81,22 @@ public class MouseLook : MonoBehaviour
 
         // Smoothly interpolate the current FOV to the target FOV
         camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, targetFov, fovSpeed * Time.deltaTime);
+    }
+
+    private void SensitivityChangeHandler()
+    {
+        //When the input is mouse wheel down, decrease sensitivity, when it's mouse wheel up, increase sensitivity
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            mouseSensitivity += 0.1f;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            //If the sensitivity is less than 0.1, don't decrease it
+            if (mouseSensitivity > 0.1f)
+                mouseSensitivity -= 0.1f;
+        }
+        //Save the sensitivity to PlayerPrefs
+        PlayerPrefs.SetFloat("MouseSensitivity", mouseSensitivity);
     }
 }

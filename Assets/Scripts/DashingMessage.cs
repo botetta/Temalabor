@@ -35,8 +35,11 @@ public class DashingMessage : MonoBehaviour
 
     private IEnumerator DisplayMessageCoroutine()
     {
-        //Reset the position of the text
-        text.transform.position = new Vector3(518, 350, 0);
+        //Reset the position of the text to the middle of the screen (calculate it based on the screen size)
+        text.transform.position = new Vector3(Screen.width / 2, (Screen.height / 2) , 0);
+
+
+        
        
         //Make the text slowly fade in
         text.alpha = 0;
