@@ -28717,7 +28717,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088675992181025144, guid: 64618c6ab576cca43abf73a570096dc6, type: 3}
       propertyPath: timeToDisplay
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7088675992181025144, guid: 64618c6ab576cca43abf73a570096dc6, type: 3}
       propertyPath: messageToDisplay
@@ -29193,11 +29193,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088675992181025144, guid: 64618c6ab576cca43abf73a570096dc6, type: 3}
       propertyPath: timeToDisplay
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7088675992181025144, guid: 64618c6ab576cca43abf73a570096dc6, type: 3}
       propertyPath: messageToDisplay
-      value: ...it's helping me calm down
+      value: I can jump to the other side when it disappears.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
