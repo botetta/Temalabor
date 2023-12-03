@@ -36567,7 +36567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088675992181025144, guid: 64618c6ab576cca43abf73a570096dc6, type: 3}
       propertyPath: messageToDisplay
-      value: I fell like I'm free
+      value: I feel like I'm free
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
